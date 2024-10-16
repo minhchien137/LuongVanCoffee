@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "622312233999",
+    "firebase_url": "https://luongvancoffee-e0204-default-rtdb.firebaseio.com",
+    "project_id": "luongvancoffee-e0204",
+    "storage_bucket": "luongvancoffee-e0204.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622312233999:android:d4ac0a6eab5dbe39b9177a",
+        "android_client_info": {
+          "package_name": "com.pro.shopfee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhuOFjNazsegNTzfuqISR7kp27QH_PZ8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
