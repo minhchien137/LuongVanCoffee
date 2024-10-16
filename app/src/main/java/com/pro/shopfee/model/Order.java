@@ -6,11 +6,18 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Order implements Serializable {
-
+    // nhan don hang
     public static final int STATUS_NEW = 1;
-    public static final int STATUS_DOING = 2;
-    public static final int STATUS_ARRIVED = 3;
-    public static final int STATUS_COMPLETE = 4;
+    // chuan bi don hang
+    public static final int STATUS_PREPARE = 2;
+    // giao don hang
+    public static final int STATUS_DOING = 3;
+    // giao thanh cong
+    public static final int STATUS_DOINGCOMPLETE  = 4;
+    // nhan don hang
+    public static final int STATUS_COMPLETE = 5;
+
+
 
     private long id;
     private String userEmail;

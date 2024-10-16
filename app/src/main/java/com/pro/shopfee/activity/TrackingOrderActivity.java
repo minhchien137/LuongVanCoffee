@@ -30,8 +30,8 @@ public class TrackingOrderActivity extends BaseActivity {
 
     private RecyclerView rcvDrinks;
     private LinearLayout layoutReceiptOrder;
-    private View dividerStep1, dividerStep2;
-    private ImageView imgStep1, imgStep2, imgStep3;
+    private View dividerStep1, dividerStep2, dividerStep3;
+    private ImageView imgStep1, imgStep2, imgStep3, imgStep4;
     private TextView tvTakeOrder, tvTakeOrderMessage;
 
     private long orderId;
@@ -71,9 +71,11 @@ public class TrackingOrderActivity extends BaseActivity {
         layoutReceiptOrder = findViewById(R.id.layout_receipt_order);
         dividerStep1 = findViewById(R.id.divider_step_1);
         dividerStep2 = findViewById(R.id.divider_step_2);
+        dividerStep3 = findViewById(R.id.divider_step_3);
         imgStep1 = findViewById(R.id.img_step_1);
         imgStep2 = findViewById(R.id.img_step_2);
         imgStep3 = findViewById(R.id.img_step_3);
+        imgStep4 = findViewById(R.id.img_step_4);
         tvTakeOrder = findViewById(R.id.tv_take_order);
         tvTakeOrderMessage = findViewById(R.id.tv_take_order_message);
         LinearLayout layoutBottom = findViewById(R.id.layout_bottom);
@@ -96,12 +98,14 @@ public class TrackingOrderActivity extends BaseActivity {
 
         if (DataStoreManager.getUser().isAdmin()) {
             imgStep1.setOnClickListener(view -> updateStatusOrder(Order.STATUS_NEW));
-            imgStep2.setOnClickListener(view -> updateStatusOrder(Order.STATUS_DOING));
-            imgStep3.setOnClickListener(view -> updateStatusOrder(Order.STATUS_ARRIVED));
+            imgStep2.setOnClickListener(view -> updateStatusOrder(Order.STATUS_PREPARE));
+            imgStep3.setOnClickListener(view -> updateStatusOrder(Order.STATUS_DOING));
+            imgStep4.setOnClickListener(view -> updateStatusOrder(Order.STATUS_DOINGCOMPLETE));
         } else {
             imgStep1.setOnClickListener(null);
             imgStep2.setOnClickListener(null);
             imgStep3.setOnClickListener(null);
+            imgStep4.setOnClickListener(null);
         }
         tvTakeOrder.setOnClickListener(view -> {
             if (isOrderArrived) {
@@ -143,6 +147,22 @@ public class TrackingOrderActivity extends BaseActivity {
                 imgStep2.setImageResource(R.drawable.ic_step_disable);
                 dividerStep2.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
                 imgStep3.setImageResource(R.drawable.ic_step_disable);
+                dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                imgStep4.setImageResource(R.drawable.ic_step_disable);
+
+                isOrderArrived = false;
+                tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
+                tvTakeOrderMessage.setVisibility(View.GONE);
+                break;
+
+            case Order.STATUS_PREPARE:
+                imgStep1.setImageResource(R.drawable.ic_step_enable);
+                dividerStep1.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
+                imgStep2.setImageResource(R.drawable.ic_step_enable);
+                dividerStep2.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
+                imgStep3.setImageResource(R.drawable.ic_step_disable);
+                dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                imgStep4.setImageResource(R.drawable.ic_step_disable);
 
                 isOrderArrived = false;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
@@ -154,24 +174,30 @@ public class TrackingOrderActivity extends BaseActivity {
                 dividerStep1.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
                 imgStep2.setImageResource(R.drawable.ic_step_enable);
                 dividerStep2.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
-                imgStep3.setImageResource(R.drawable.ic_step_disable);
+                imgStep3.setImageResource(R.drawable.ic_step_enable);
+                dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                imgStep4.setImageResource(R.drawable.ic_step_disable);
 
                 isOrderArrived = false;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
                 tvTakeOrderMessage.setVisibility(View.GONE);
                 break;
 
-            case Order.STATUS_ARRIVED:
+            case Order.STATUS_DOINGCOMPLETE:
                 imgStep1.setImageResource(R.drawable.ic_step_enable);
                 dividerStep1.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
                 imgStep2.setImageResource(R.drawable.ic_step_enable);
                 dividerStep2.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
                 imgStep3.setImageResource(R.drawable.ic_step_enable);
+                dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                imgStep4.setImageResource(R.drawable.ic_step_enable);
 
                 isOrderArrived = true;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_enable_corner_16);
                 tvTakeOrderMessage.setVisibility(View.VISIBLE);
                 break;
+
+
         }
     }
 
