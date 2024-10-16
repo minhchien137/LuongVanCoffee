@@ -128,9 +128,10 @@
     <string name="label_tracking_order">Theo dõi đơn hàng</string>
     <string name="label_receipt_order">Hóa đơn</string>
 
-    <string name="label_shop_takes_order">Quán nhận được đơn hàng</string>
+    <string name="label_shop_takes_order">Nhận đơn hàng</string>
     <string name="label_prepare_your_order">Chuẩn bị đơn hàng</string>
-    <string name="label_order_complete">Đơn hàng của bạn đã hoàn tất, chúng tôi sẽ giao hàng ngay cho bạn</string>
+    <string name="label_order_complete">Đang giao hàng</string>
+    <string name="label_ship_complete">Giao thành công</string>
     <string name="label_take_order">Nhận đơn hàng</string>
     <string name="label_take_order_message">Vui lòng kiểm tra lại đơn hàng khi nhận</string>
     <string name="label_process">Đang xử lý</string>
