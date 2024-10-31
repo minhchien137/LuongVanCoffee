@@ -34,7 +34,6 @@ public class AdminAddVoucherActivity extends BaseActivity {
 
         loadDataIntent();
         initUi();
-        initView();
     }
 
     private void loadDataIntent() {
@@ -56,59 +55,5 @@ public class AdminAddVoucherActivity extends BaseActivity {
         btnAddOrEdit.setOnClickListener(v -> addOrEditVoucher());
     }
 
-    private void initView() {
-        if (isUpdate) {
-            tvToolbarTitle.setText(getString(R.string.label_update_voucher));
-            btnAddOrEdit.setText(getString(R.string.action_edit));
 
-            edtDiscount.setText(String.valueOf(mVoucher.getDiscount()));
-            edtMinimum.setText(String.valueOf(mVoucher.getMinimum()));
-        } else {
-            tvToolbarTitle.setText(getString(R.string.label_add_voucher));
-            btnAddOrEdit.setText(getString(R.string.action_add));
-        }
-    }
-
-    private void addOrEditVoucher() {
-        String strDiscount = edtDiscount.getText().toString().trim();
-        String strMinimum = edtMinimum.getText().toString().trim();
-
-        if (StringUtil.isEmpty(strDiscount) || Integer.parseInt(strDiscount) <= 0) {
-            Toast.makeText(this, getString(R.string.msg_discount_require), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (StringUtil.isEmpty(strMinimum)) {
-            strMinimum = "0";
-        }
-        // Update voucher
-        if (isUpdate) {
-            showProgressDialog(true);
-            Map<String, Object> map = new HashMap<>();
-            map.put("discount", Integer.parseInt(strDiscount));
-            map.put("minimum", Integer.parseInt(strMinimum));
-
-            MyApplication.get(this).getVoucherDatabaseReference()
-                    .child(String.valueOf(mVoucher.getId())).updateChildren(map, (error, ref) -> {
-                        showProgressDialog(false);
-                        Toast.makeText(this,
-                                getString(R.string.msg_edit_voucher_success), Toast.LENGTH_SHORT).show();
-                        GlobalFunction.hideSoftKeyboard(this);
-                    });
-            return;
-        }
-
-        // Add voucher
-        showProgressDialog(true);
-        long voucherId = System.currentTimeMillis();
-        Voucher voucher = new Voucher(voucherId, Integer.parseInt(strDiscount), Integer.parseInt(strMinimum));
-        MyApplication.get(this).getVoucherDatabaseReference()
-                .child(String.valueOf(voucherId)).setValue(voucher, (error, ref) -> {
-                    showProgressDialog(false);
-                    edtDiscount.setText("");
-                    edtMinimum.setText("");
-                    GlobalFunction.hideSoftKeyboard(this);
-                    Toast.makeText(this, getString(R.string.msg_add_voucher_success), Toast.LENGTH_SHORT).show();
-                });
-    }
 }
