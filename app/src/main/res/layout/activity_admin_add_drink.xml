@@ -217,4 +217,5 @@
         android:text="@string/action_add"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small" />
+
 </RelativeLayout>

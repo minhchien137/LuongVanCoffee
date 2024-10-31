@@ -102,4 +102,5 @@
             android:textSize="@dimen/text_size_small" />
 
     </LinearLayout>
+
 </LinearLayout>
