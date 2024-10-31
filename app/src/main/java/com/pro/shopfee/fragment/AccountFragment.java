@@ -66,22 +66,5 @@ public class AccountFragment extends Fragment {
         layoutSignOut = mView.findViewById(R.id.layout_sign_out);
     }
 
-    private void initListener() {
-        layoutFeedback.setOnClickListener(view ->
-                GlobalFunction.startActivity(getActivity(), FeedbackActivity.class));
-        layoutContact.setOnClickListener(view ->
-                GlobalFunction.startActivity(getActivity(), ContactActivity.class));
-        layoutChangePassword.setOnClickListener(view ->
-                GlobalFunction.startActivity(getActivity(), ChangePasswordActivity.class));
-        layoutSignOut.setOnClickListener(view -> onClickSignOut());
-    }
 
-    private void onClickSignOut() {
-        if (getActivity() == null) return;
-
-        FirebaseAuth.getInstance().signOut();
-        DataStoreManager.setUser(null);
-        GlobalFunction.startActivity(getActivity(), LoginActivity.class);
-        getActivity().finishAffinity();
-    }
 }
