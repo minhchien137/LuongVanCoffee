@@ -89,7 +89,6 @@ public class MainActivity extends BaseActivity {
         tvDrinksName = findViewById(R.id.tv_drinks_name);
         tvAmount = findViewById(R.id.tv_amount);
     }
-
     @Override
     public void onBackPressed() {
         showConfirmExitApp();
