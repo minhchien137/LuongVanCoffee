@@ -31,7 +31,6 @@ public class ChangePasswordActivity extends BaseActivity {
         initUi();
         initListener();
     }
-
     private void initToolbar() {
         ImageView imgToolbarBack = findViewById(R.id.img_toolbar_back);
         TextView tvToolbarTitle = findViewById(R.id.tv_toolbar_title);
