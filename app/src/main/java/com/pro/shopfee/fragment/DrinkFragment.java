@@ -170,4 +170,106 @@ public class DrinkFragment extends Fragment {
         rcvDrink.setAdapter(drinkAdapter);
     }
 
+    private void setListDrinkDisplay(@NonNull Filter filter,@Nullable String keyword) {
+        if (listDrink == null || listDrink.isEmpty()) return;
+
+        if (listDrinkKeyWord != null) {
+            listDrinkKeyWord.clear();
+        } else {
+            listDrinkKeyWord = new ArrayList<>();
+        }
+
+        if (listDrinkDisplay != null) {
+            listDrinkDisplay.clear();
+        } else {
+            listDrinkDisplay = new ArrayList<>();
+        }
+
+        if (!StringUtil.isEmpty(keyword)) {
+            for (Drink drink: listDrink) {
+                if (getTextSearch(drink.getName()).toLowerCase().trim()
+                        .contains(getTextSearch(keyword).toLowerCase().trim())) {
+                    listDrinkKeyWord.add(drink);
+                }
+            }
+            switch (filter.getId()) {
+                case Filter.TYPE_FILTER_ALL:
+                    listDrinkDisplay.addAll(listDrinkKeyWord);
+                    break;
+
+                case Filter.TYPE_FILTER_RATE:
+                    listDrinkDisplay.addAll(listDrinkKeyWord);
+                    Collections.sort(listDrinkDisplay,
+                            (drink1, drink2) -> Double.compare(drink2.getRate(), drink1.getRate()));
+                    break;
+
+                case Filter.TYPE_FILTER_PRICE:
+                    listDrinkDisplay.addAll(listDrinkKeyWord);
+                    Collections.sort(listDrinkDisplay,
+                            (drink1, drink2) -> Integer.compare(drink1.getRealPrice(), drink2.getRealPrice()));
+                    break;
+
+                case Filter.TYPE_FILTER_PROMOTION:
+                    for (Drink drink : listDrinkKeyWord) {
+                        if (drink.getSale() > 0) listDrinkDisplay.add(drink);
+                    }
+                    break;
+            }
+        } else {
+            switch (filter.getId()) {
+                case Filter.TYPE_FILTER_ALL:
+                    listDrinkDisplay.addAll(listDrink);
+                    break;
+
+                case Filter.TYPE_FILTER_RATE:
+                    listDrinkDisplay.addAll(listDrink);
+                    Collections.sort(listDrinkDisplay,
+                            (drink1, drink2) -> Double.compare(drink2.getRate(), drink1.getRate()));
+                    break;
+
+                case Filter.TYPE_FILTER_PRICE:
+                    listDrinkDisplay.addAll(listDrink);
+                    Collections.sort(listDrinkDisplay,
+                            (drink1, drink2) -> Integer.compare(drink1.getRealPrice(), drink2.getRealPrice()));
+                    break;
+
+                case Filter.TYPE_FILTER_PROMOTION:
+                    for (Drink drink : listDrink) {
+                        if (drink.getSale() > 0) listDrinkDisplay.add(drink);
+                    }
+                    break;
+            }
+        }
+        reloadListDrink();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void reloadListDrink() {
+        if (drinkAdapter != null) drinkAdapter.notifyDataSetChanged();
+    }
+
+    public String getTextSearch(String input) {
+        String nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchKeywordEvent(SearchKeywordEvent event) {
+        keyword = event.getKeyword();
+        setListDrinkDisplay(currentFilter, keyword);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (filterAdapter != null) filterAdapter.release();
+        if (getActivity() != null && mValueEventListener != null) {
+            MyApplication.get(getActivity()).getDrinkDatabaseReference()
+                    .removeEventListener(mValueEventListener);
+        }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 }
