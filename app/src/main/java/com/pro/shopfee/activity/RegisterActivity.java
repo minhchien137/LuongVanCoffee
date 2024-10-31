@@ -36,7 +36,6 @@ public class RegisterActivity extends BaseActivity {
         initUi();
         initListener();
     }
-
     private void initUi() {
         edtEmail = findViewById(R.id.edt_email);
         edtPassword = findViewById(R.id.edt_password);

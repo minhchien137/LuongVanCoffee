@@ -160,7 +160,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
     }
-
     private void goToMainActivity() {
         if (DataStoreManager.getUser().isAdmin()) {
             GlobalFunction.startActivity(this, AdminMainActivity.class);
