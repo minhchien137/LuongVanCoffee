@@ -23,7 +23,6 @@ public class AdminAddCategoryActivity extends BaseActivity {
     private TextView tvToolbarTitle;
     private EditText edtName;
     private Button btnAddOrEdit;
-
     private boolean isUpdate;
     private Category mCategory;
 
