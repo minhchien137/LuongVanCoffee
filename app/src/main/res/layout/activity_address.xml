@@ -28,4 +28,5 @@
         android:text="@string/add_address"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small" />
+
 </RelativeLayout>
