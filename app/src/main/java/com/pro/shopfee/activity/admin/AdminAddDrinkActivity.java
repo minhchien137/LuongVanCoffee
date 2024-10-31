@@ -50,7 +50,7 @@ public class AdminAddDrinkActivity extends BaseActivity {
         setContentView(R.layout.activity_admin_add_drink);
 
         loadDataIntent();
-        initUi();
+       // initUi();
         initData();
     }
 
@@ -62,21 +62,7 @@ public class AdminAddDrinkActivity extends BaseActivity {
         }
     }
 
-    private void initUi() {
-        ImageView imgToolbarBack = findViewById(R.id.img_toolbar_back);
-        tvToolbarTitle = findViewById(R.id.tv_toolbar_title);
-        edtName = findViewById(R.id.edt_name);
-        edtDescription = findViewById(R.id.edt_description);
-        edtPrice = findViewById(R.id.edt_price);
-        edtPromotion = findViewById(R.id.edt_promotion);
-        edtImage = findViewById(R.id.edt_image);
-        edtImageBanner = findViewById(R.id.edt_image_banner);
-        chbFeatured = findViewById(R.id.chb_featured);
-        btnAddOrEdit = findViewById(R.id.btn_add_or_edit);
-        spnCategory = findViewById(R.id.spn_category);
-        imgToolbarBack.setOnClickListener(view -> onBackPressed());
-        btnAddOrEdit.setOnClickListener(v -> addOrEditDrink());
-    }
+
 
     private void initData() {
         if (isUpdate) {
