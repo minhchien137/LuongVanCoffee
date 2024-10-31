@@ -133,4 +133,5 @@
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold" />
     </LinearLayout>
+
 </RelativeLayout>

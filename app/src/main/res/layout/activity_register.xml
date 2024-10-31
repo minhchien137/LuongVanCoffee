@@ -122,4 +122,5 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_small" />
     </LinearLayout>
+
 </RelativeLayout>
