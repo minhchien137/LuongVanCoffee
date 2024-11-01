@@ -41,5 +41,35 @@ public class HistoryFragment extends Fragment {
 
         return mView;
     }
+    private void initToolbar() {
+        ImageView imgToolbarBack = mView.findViewById(R.id.img_toolbar_back);
+        TextView tvToolbarTitle = mView.findViewById(R.id.tv_toolbar_title);
+        imgToolbarBack.setOnClickListener(view -> backToHomeScreen());
+        tvToolbarTitle.setText(getString(R.string.nav_history));
+    }
 
+    private void backToHomeScreen() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity == null) return;
+        mainActivity.getViewPager2().setCurrentItem(0);
+    }
+
+    private void initUi() {
+        viewPagerOrder = mView.findViewById(R.id.view_pager_order);
+        viewPagerOrder.setUserInputEnabled(false);
+        tabOrder = mView.findViewById(R.id.tab_order);
+    }
+
+    private void displayTabsOrder() {
+        List<TabOrder> list = new ArrayList<>();
+        list.add(new TabOrder(TabOrder.TAB_ORDER_PROCESS, getString(R.string.label_process)));
+        list.add(new TabOrder(TabOrder.TAB_ORDER_DONE, getString(R.string.label_done)));
+        if (getActivity() == null) return;
+        viewPagerOrder.setOffscreenPageLimit(list.size());
+        OrderPagerAdapter adapter = new OrderPagerAdapter(getActivity(), list);
+        viewPagerOrder.setAdapter(adapter);
+        new TabLayoutMediator(tabOrder, viewPagerOrder,
+                (tab, position) -> tab.setText(list.get(position).getName().toLowerCase()))
+                .attach();
+    }
 }
