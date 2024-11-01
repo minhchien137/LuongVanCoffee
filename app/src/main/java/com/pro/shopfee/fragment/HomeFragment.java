@@ -70,4 +70,161 @@ public class HomeFragment extends Fragment {
         }
     };
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        initUi();
+        initListener();
+
+        getListDrinkBanner();
+        getListCategory();
+
+        return mView;
+    }
+
+    private void initUi() {
+        viewPagerDrinkFeatured = mView.findViewById(R.id.view_pager_drink_featured);
+        indicatorDrinkFeatured = mView.findViewById(R.id.indicator_drink_featured);
+        viewPagerCategory = mView.findViewById(R.id.view_pager_category);
+        viewPagerCategory.setUserInputEnabled(false);
+        tabCategory = mView.findViewById(R.id.tab_category);
+        edtSearchName = mView.findViewById(R.id.edt_search_name);
+        imgSearch = mView.findViewById(R.id.img_search);
+    }
+
+    private void initListener() {
+        edtSearchName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String strKey = s.toString().trim();
+                if (strKey.equals("") || strKey.length() == 0) {
+                    searchDrink();
+                }
+            }
+        });
+
+        imgSearch.setOnClickListener(view -> searchDrink());
+
+        edtSearchName.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchDrink();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void getListDrinkBanner() {
+        if (getActivity() == null) return;
+        mDrinkValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (listDrinkFeatured != null) {
+                    listDrinkFeatured.clear();
+                } else {
+                    listDrinkFeatured = new ArrayList<>();
+                }
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Drink drink = dataSnapshot.getValue(Drink.class);
+                    if (drink != null && drink.isFeatured()) {
+                        listDrinkFeatured.add(drink);
+                    }
+                }
+                displayListBanner();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        MyApplication.get(getActivity()).getDrinkDatabaseReference()
+                .addValueEventListener(mDrinkValueEventListener);
+    }
+
+    private void displayListBanner() {
+        BannerViewPagerAdapter adapter = new BannerViewPagerAdapter(listDrinkFeatured, drink -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Constant.DRINK_ID, drink.getId());
+            GlobalFunction.startActivity(getActivity(), DrinkDetailActivity.class, bundle);
+        });
+        viewPagerDrinkFeatured.setAdapter(adapter);
+        indicatorDrinkFeatured.setViewPager(viewPagerDrinkFeatured);
+
+        viewPagerDrinkFeatured.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                mHandlerBanner.removeCallbacks(mRunnableBanner);
+                mHandlerBanner.postDelayed(mRunnableBanner, 3000);
+            }
+        });
+    }
+
+    private void getListCategory() {
+        if (getActivity() == null) return;
+        mCategoryValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (listCategory != null) {
+                    listCategory.clear();
+                } else {
+                    listCategory = new ArrayList<>();
+                }
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Category category = dataSnapshot.getValue(Category.class);
+                    if (category != null) {
+                        listCategory.add(category);
+                    }
+                }
+                displayTabsCategory();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        MyApplication.get(getActivity()).getCategoryDatabaseReference()
+                .addValueEventListener(mCategoryValueEventListener);
+    }
+
+    private void displayTabsCategory() {
+        if (getActivity() == null || listCategory == null || listCategory.isEmpty()) return;
+        viewPagerCategory.setOffscreenPageLimit(listCategory.size());
+        CategoryPagerAdapter adapter = new CategoryPagerAdapter(getActivity(), listCategory);
+        viewPagerCategory.setAdapter(adapter);
+        new TabLayoutMediator(tabCategory, viewPagerCategory,
+                (tab, position) -> tab.setText(listCategory.get(position).getName().toLowerCase()))
+                .attach();
+    }
+
+    private void searchDrink() {
+        String strKey = edtSearchName.getText().toString().trim();
+        EventBus.getDefault().post(new SearchKeywordEvent(strKey));
+        Utils.hideSoftKeyboard(getActivity());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() != null && mCategoryValueEventListener != null) {
+            MyApplication.get(getActivity()).getCategoryDatabaseReference()
+                    .removeEventListener(mCategoryValueEventListener);
+        }
+        if (getActivity() != null && mDrinkValueEventListener != null) {
+            MyApplication.get(getActivity()).getDrinkDatabaseReference()
+                    .removeEventListener(mDrinkValueEventListener);
+        }
+    }
 }
