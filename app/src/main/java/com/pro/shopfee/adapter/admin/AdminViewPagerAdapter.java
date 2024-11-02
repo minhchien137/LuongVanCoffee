@@ -5,11 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.pro.shopfee.fragment.admin.AdminCategoryFragment;
-import com.pro.shopfee.fragment.admin.AdminDrinkFragment;
-import com.pro.shopfee.fragment.admin.AdminOrderFragment;
-import com.pro.shopfee.fragment.admin.AdminSettingsFragment;
-
 public class AdminViewPagerAdapter extends FragmentStateAdapter {
 
     public AdminViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
