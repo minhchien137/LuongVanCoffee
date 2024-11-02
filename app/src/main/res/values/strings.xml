@@ -82,7 +82,7 @@
     <string name="filter_price">Giá</string>
     <string name="filter_promotion">Khuyến mại</string>
 
-    <string name="hint_home_search">Hôm nay bạn muốn uống gì?</string>
+    <string name="hint_home_search">Bạn muốn uống gì?</string>
     <string name="hint_voucher_code">Vui lòng nhập mã khuyến mại</string>
     <string name="ratings_and_reviews">Xếp hạng và đánh giá</string>
     <string name="customize">Tùy chỉnh</string>
@@ -139,7 +139,7 @@
     <string name="label_success">Thành công</string>
 
     <string name="label_facebook">Facebook</string>
-    <string name="label_call">Call Phone</string>
+    <string name="label_call">Phone Number</string>
     <string name="label_gmail">Gmail</string>
     <string name="label_skype">Skype</string>
     <string name="label_youtube">Youtube</string>
@@ -207,4 +207,6 @@
     <string name="msg_add_category_success">Thêm thể loại thành công</string>
     <string name="msg_edit_drink_success">Chỉnh sửa đồ uống thành công</string>
     <string name="msg_add_drink_success">Thêm đồ uống thành công</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
