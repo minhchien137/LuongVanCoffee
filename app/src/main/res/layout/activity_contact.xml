@@ -19,7 +19,7 @@
             android:layout_width="@dimen/define_dimen_120"
             android:layout_height="@dimen/define_dimen_120"
             android:layout_marginTop="@dimen/define_dimen_10"
-            android:src="@drawable/img_about_us" />
+            android:src="@drawable/contactlogo" />
 
         <TextView
             android:id="@+id/tv_about_us_title"
