@@ -85,7 +85,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     private void resetPassword(String email) {
         showProgressDialog(true);
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
+        // Sử dụng Firebase Authentication để gửi email đặt lại mật khẩu đến địa chỉ email đã nhập.
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
                     showProgressDialog(false);

@@ -102,6 +102,7 @@ public class ChangePasswordActivity extends BaseActivity {
         String strOldPassword = edtOldPassword.getText().toString().trim();
         String strNewPassword = edtNewPassword.getText().toString().trim();
         String strConfirmPassword = edtConfirmPassword.getText().toString().trim();
+       // Check validation
         if (StringUtil.isEmpty(strOldPassword)) {
             showToastMessage(getString(R.string.msg_old_password_require));
         } else if (StringUtil.isEmpty(strNewPassword)) {
@@ -121,10 +122,13 @@ public class ChangePasswordActivity extends BaseActivity {
 
     private void changePassword(String newPassword) {
         showProgressDialog(true);
+        // Lấy thông tin người dùng hiện tại từ Firebase Authentication
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
         }
+
+        // Sử dụng updataPassword của Firebase Authentication
         user.updatePassword(newPassword)
                 .addOnCompleteListener(task -> {
                     showProgressDialog(false);
