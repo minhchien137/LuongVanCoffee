@@ -27,7 +27,7 @@ public class LoginActivity extends BaseActivity {
     private Button btnLogin;
     private LinearLayout layoutRegister;
     private TextView tvForgotPassword;
-    private RadioButton rdbAdmin, rdbUser;
+    // private RadioButton rdbAdmin, rdbUser;
     private boolean isEnableButtonLogin;
 
     @Override
@@ -45,12 +45,12 @@ public class LoginActivity extends BaseActivity {
         btnLogin = findViewById(R.id.btn_login);
         layoutRegister = findViewById(R.id.layout_register);
         tvForgotPassword = findViewById(R.id.tv_forgot_password);
-        rdbAdmin = findViewById(R.id.rdb_admin);
-        rdbUser = findViewById(R.id.rdb_user);
+      //  rdbAdmin = findViewById(R.id.rdb_admin);
+      //  rdbUser = findViewById(R.id.rdb_user);
     }
 
     private void initListener() {
-        rdbUser.setChecked(true);
+       // rdbUser.setChecked(true);
         edtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity {
 
         String strEmail = edtEmail.getText().toString().trim();
         String strPassword = edtPassword.getText().toString().trim();
+
         if (StringUtil.isEmpty(strEmail)) {
             showToastMessage(getString(R.string.msg_email_require));
         } else if (StringUtil.isEmpty(strPassword)) {
@@ -123,19 +124,8 @@ public class LoginActivity extends BaseActivity {
         } else if (!StringUtil.isValidEmail(strEmail)) {
             showToastMessage(getString(R.string.msg_email_invalid));
         } else {
-            if (rdbAdmin.isChecked()) {
-                if (!strEmail.contains(Constant.ADMIN_EMAIL_FORMAT)) {
-                    Toast.makeText(this, getString(R.string.msg_email_invalid_admin), Toast.LENGTH_SHORT).show();
-                } else {
-                    loginUserFirebase(strEmail, strPassword);
-                }
-            } else {
-                if (strEmail.contains(Constant.ADMIN_EMAIL_FORMAT)) {
-                    Toast.makeText(this, getString(R.string.msg_email_invalid_user), Toast.LENGTH_SHORT).show();
-                } else {
-                    loginUserFirebase(strEmail, strPassword);
-                }
-            }
+            // Directly call loginUserFirebase
+            loginUserFirebase(strEmail, strPassword);
         }
     }
 
@@ -149,9 +139,8 @@ public class LoginActivity extends BaseActivity {
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         if (user != null) {
                             User userObject = new User(user.getEmail(), password);
-                            if (user.getEmail() != null && user.getEmail().contains(Constant.ADMIN_EMAIL_FORMAT)) {
-                                userObject.setAdmin(true);
-                            }
+                            // Assign role based on email format
+                            userObject.setAdmin(user.getEmail() != null && user.getEmail().contains(Constant.ADMIN_EMAIL_FORMAT));
                             DataStoreManager.setUser(userObject);
                             goToMainActivity();
                         }

@@ -28,6 +28,7 @@ public class DataStoreManager {
         }
     }
 
+    // Lưu thông tin người dùng vào SharedPreferences.
     public static void setUser(@Nullable User user) {
         String jsonUser = "";
         if (user != null) {
@@ -36,11 +37,12 @@ public class DataStoreManager {
         DataStoreManager.getInstance().sharedPreferences
                 .putStringValue(PREF_USER_INFOR, jsonUser);
     }
-
+    // Lấy thông tin người dùng từ SharedPreferences.
     public static User getUser() {
         String jsonUser = DataStoreManager.getInstance()
                 .sharedPreferences.getStringValue(PREF_USER_INFOR);
         if (!StringUtil.isEmpty(jsonUser)) {
+          //  Chuyển đổi JSON string sang đối tượng User bằng Gson.
             return new Gson().fromJson(jsonUser, User.class);
         }
         return new User();
