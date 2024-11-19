@@ -64,6 +64,7 @@ public class HistoryFragment extends Fragment {
         List<TabOrder> list = new ArrayList<>();
         list.add(new TabOrder(TabOrder.TAB_ORDER_PROCESS, getString(R.string.label_process)));
         list.add(new TabOrder(TabOrder.TAB_ORDER_DONE, getString(R.string.label_done)));
+        list.add(new TabOrder(TabOrder.TAB_ORDER_CANCELLED, getString(R.string.label_cancel)));
         if (getActivity() == null) return;
         viewPagerOrder.setOffscreenPageLimit(list.size());
         OrderPagerAdapter adapter = new OrderPagerAdapter(getActivity(), list);

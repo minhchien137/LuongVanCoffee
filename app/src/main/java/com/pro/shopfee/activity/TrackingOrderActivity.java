@@ -32,7 +32,7 @@ public class TrackingOrderActivity extends BaseActivity {
     private LinearLayout layoutReceiptOrder;
     private View dividerStep1, dividerStep2, dividerStep3;
     private ImageView imgStep1, imgStep2, imgStep3, imgStep4;
-    private TextView tvTakeOrder, tvTakeOrderMessage;
+    private TextView tvTakeOrder, tvTakeOrderMessage,tvCancelOrder;
 
     private long orderId;
     private Order mOrder;
@@ -78,6 +78,7 @@ public class TrackingOrderActivity extends BaseActivity {
         imgStep4 = findViewById(R.id.img_step_4);
         tvTakeOrder = findViewById(R.id.tv_take_order);
         tvTakeOrderMessage = findViewById(R.id.tv_take_order_message);
+        tvCancelOrder = findViewById(R.id.tv_cancel_order);
         LinearLayout layoutBottom = findViewById(R.id.layout_bottom);
         if (DataStoreManager.getUser().isAdmin()) {
             layoutBottom.setVisibility(View.GONE);
@@ -112,6 +113,32 @@ public class TrackingOrderActivity extends BaseActivity {
                 updateStatusOrder(Order.STATUS_COMPLETE);
             }
         });
+
+        tvCancelOrder.setOnClickListener(view -> {
+            if (mOrder.getStatus() == Order.STATUS_NEW) {
+                cancelOrder();
+            } else {
+                showToastMessage(getString(R.string.msg_cannot_cancel_order));
+            }
+        });
+    }
+
+    private void cancelOrder() {
+        if (mOrder == null) return;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", Order.STATUS_CANCELLED);
+
+        MyApplication.get(this).getOrderDatabaseReference()
+                .child(String.valueOf(mOrder.getId()))
+                .updateChildren(map, (error, ref) -> {
+                    if (error == null) {
+                        showToastMessage(getString(R.string.msg_order_cancelled));
+                        finish(); // Quay về màn hình trước đó
+                    } else {
+                        showToastMessage(getString(R.string.msg_cancel_order_failed));
+                    }
+                });
     }
 
     private void getOrderDetailFromFirebase() {
@@ -150,9 +177,15 @@ public class TrackingOrderActivity extends BaseActivity {
                 dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
                 imgStep4.setImageResource(R.drawable.ic_step_disable);
 
+                // Không cho phép xác nhận "Đã nhận đơn hàng"
                 isOrderArrived = false;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
                 tvTakeOrderMessage.setVisibility(View.GONE);
+
+                // Hiển thị nút hủy đơn hàng
+                tvCancelOrder.setVisibility(View.VISIBLE); // Bật nút hủy
+                tvCancelOrder.setBackgroundResource(R.drawable.bg_button_enable_corner_16); // Kích hoạt giao diện nút hủy
+                tvCancelOrder.setEnabled(true); // Kích hoạt chức năng nút hủy
                 break;
 
             case Order.STATUS_PREPARE:
@@ -167,6 +200,7 @@ public class TrackingOrderActivity extends BaseActivity {
                 isOrderArrived = false;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
                 tvTakeOrderMessage.setVisibility(View.GONE);
+                tvCancelOrder.setVisibility(View.GONE);
                 break;
 
             case Order.STATUS_DOING:
@@ -181,6 +215,7 @@ public class TrackingOrderActivity extends BaseActivity {
                 isOrderArrived = false;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_disable_corner_16);
                 tvTakeOrderMessage.setVisibility(View.GONE);
+                tvCancelOrder.setVisibility(View.GONE);
                 break;
 
             case Order.STATUS_DOINGCOMPLETE:
@@ -194,7 +229,21 @@ public class TrackingOrderActivity extends BaseActivity {
 
                 isOrderArrived = true;
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_enable_corner_16);
-                tvTakeOrderMessage.setVisibility(View.VISIBLE);
+                //tvTakeOrderMessage.setVisibility(View.VISIBLE);
+                tvCancelOrder.setVisibility(View.GONE);
+                break;
+
+            case Order.STATUS_CANCELLED:
+                imgStep1.setImageResource(R.drawable.ic_step_disable);
+                dividerStep1.setBackgroundColor(ContextCompat.getColor(this, R.color.bgFilter));
+                imgStep2.setImageResource(R.drawable.ic_step_disable);
+                dividerStep2.setBackgroundColor(ContextCompat.getColor(this, R.color.bgFilter));
+                imgStep3.setImageResource(R.drawable.ic_step_disable);
+                dividerStep3.setBackgroundColor(ContextCompat.getColor(this, R.color.bgFilter));
+                imgStep4.setImageResource(R.drawable.ic_step_disable);
+
+                tvTakeOrder.setVisibility(View.GONE);
+                tvCancelOrder.setVisibility(View.GONE);
                 break;
 
 
