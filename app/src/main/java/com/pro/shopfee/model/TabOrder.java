@@ -4,7 +4,7 @@ public class TabOrder {
 
     public static final int TAB_ORDER_PROCESS = 1;
     public static final int TAB_ORDER_DONE = 2;
-
+    public static final int TAB_ORDER_CANCELLED = 3;
     private int type;
     private String name;
 

@@ -73,6 +73,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             holder.tvReview.setText(order.getReview());
             holder.layoutAction.setOnClickListener(v ->
                     iClickOrderListener.onClickReceiptOrder(order));
+        } else if (Order.STATUS_CANCELLED == order.getStatus()){
+            holder.tvSuccess.setVisibility(View.VISIBLE);
+            holder.tvSuccess.setText(context.getString(R.string.label_cancel));  // Hủy bỏ
+            holder.tvAction.setText(context.getString(R.string.label_receipt_order));  // Hóa đơn
+            holder.layoutReview.setVisibility(View.GONE);
+            holder.layoutAction.setOnClickListener(v -> iClickOrderListener.onClickReceiptOrder(order));
         } else {
             holder.tvSuccess.setVisibility(View.GONE);
             holder.tvAction.setText(context.getString(R.string.label_tracking_order));

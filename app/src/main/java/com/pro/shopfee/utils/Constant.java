@@ -14,10 +14,15 @@ public class Constant {
     public static final String RATING_REVIEW_OBJECT = "rating_review_object";
     public static final String AMOUNT_VALUE = "amount_value";
 
+    public static final int ORDER_TYPE_DELIVERY = 1; // Giao hàng
+    public static final int ORDER_TYPE_DINE_IN = 2; // Đặt hàng tại quán
+
+
     public static final int TYPE_GOPAY = 1;
     public static final int TYPE_CREDIT = 2;
     public static final int TYPE_BANK = 3;
     public static final int TYPE_ZALO_PAY = 4;
+
 
     public static final String ADMIN_EMAIL_FORMAT = "@admin.com";
 

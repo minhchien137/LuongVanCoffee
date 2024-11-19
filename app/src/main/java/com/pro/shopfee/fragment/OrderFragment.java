@@ -109,11 +109,15 @@ public class OrderFragment extends Fragment {
                     Order order = dataSnapshot.getValue(Order.class);
                     if (order != null) {
                         if (TabOrder.TAB_ORDER_PROCESS == orderTabType) {
-                            if (Order.STATUS_COMPLETE != order.getStatus()) {
+                            if (Order.STATUS_COMPLETE != order.getStatus() && Order.STATUS_CANCELLED != order.getStatus()) {
                                 listOrder.add(0, order);
                             }
                         } else if (TabOrder.TAB_ORDER_DONE == orderTabType) {
                             if (Order.STATUS_COMPLETE == order.getStatus()) {
+                                listOrder.add(0, order);
+                            }
+                        } else if (TabOrder.TAB_ORDER_CANCELLED == orderTabType) {
+                            if (Order.STATUS_CANCELLED == order.getStatus()) {
                                 listOrder.add(0, order);
                             }
                         }
@@ -146,11 +150,16 @@ public class OrderFragment extends Fragment {
                     Order order = dataSnapshot.getValue(Order.class);
                     if (order != null) {
                         if (TabOrder.TAB_ORDER_PROCESS == orderTabType) {
-                            if (Order.STATUS_COMPLETE != order.getStatus()) {
+                            if (Order.STATUS_COMPLETE != order.getStatus() && Order.STATUS_CANCELLED != order.getStatus()) {
                                 listOrder.add(0, order);
                             }
                         } else if (TabOrder.TAB_ORDER_DONE == orderTabType) {
                             if (Order.STATUS_COMPLETE == order.getStatus()) {
+                                listOrder.add(0, order);
+                            }
+                        }
+                        else if (TabOrder.TAB_ORDER_CANCELLED == orderTabType) {
+                            if (Order.STATUS_CANCELLED == order.getStatus()) {
                                 listOrder.add(0, order);
                             }
                         }

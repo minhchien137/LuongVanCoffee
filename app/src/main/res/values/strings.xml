@@ -49,6 +49,9 @@
     <string name="order_phone_number">Điện thoại</string>
 
     <string name="msg_get_date_error">Xảy ra lỗi, vui lòng thử lại</string>
+    <string name="msg_cannot_cancel_order">Đơn hàng không thể hủy tại trạng thái hiện tại.</string>
+    <string name="msg_order_cancelled">Đơn hàng đã được hủy thành công.</string>
+    <string name="msg_cancel_order_failed">Hủy đơn hàng thất bại. Vui lòng thử lại.</string>
     <string name="msg_exit_app">Bạn có muốn thoát ứng dụng?</string>
     <string name="msg_waiting_message">Vui lòng đợi…</string>
 
@@ -100,6 +103,7 @@
     <string name="label_notes">Ghi chú</string>
     <string name="label_total">Tổng tiền</string>
     <string name="label_add_order">Thêm vào giỏ hàng</string>
+    <string name="label_order_quan">Đặt hàng tại quán</string>
 
     <string name="label_rating_review_order">Đánh giá quá trình giao hàng cho đơn hàng này</string>
     <string name="label_rating_review_drink">Bạn cảm thấy đồ uống này như thế nào?</string>
@@ -133,10 +137,13 @@
     <string name="label_order_complete">Đang giao hàng</string>
     <string name="label_ship_complete">Giao thành công</string>
     <string name="label_take_order">Nhận đơn hàng</string>
+    <string name="label_cancel_order">Hủy đơn hàng</string>
     <string name="label_take_order_message">Vui lòng kiểm tra lại đơn hàng khi nhận</string>
     <string name="label_process">Đang xử lý</string>
     <string name="label_done">Hoàn thành</string>
+    <string name="label_cancel">Đã hủy</string>
     <string name="label_success">Thành công</string>
+    <string name="label_fail">Hủy bỏ</string>
 
     <string name="label_facebook">Facebook</string>
     <string name="label_call">Phone Number</string>

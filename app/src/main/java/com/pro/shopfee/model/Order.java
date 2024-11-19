@@ -16,6 +16,8 @@ public class Order implements Serializable {
     public static final int STATUS_DOINGCOMPLETE  = 4;
     // nhan don hang
     public static final int STATUS_COMPLETE = 5;
+    // huy don hang
+    public static final int STATUS_CANCELLED = -1;
 
 
 
@@ -31,6 +33,7 @@ public class Order implements Serializable {
     private double rate;
     private String review;
     private Address address;
+    private String tableNumber;
 
     public Order() {}
 
@@ -128,6 +131,14 @@ public class Order implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
     public String getListDrinksName() {

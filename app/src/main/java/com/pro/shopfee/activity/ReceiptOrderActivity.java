@@ -123,7 +123,10 @@ public class ReceiptOrderActivity extends BaseActivity {
         rcvDrinks.setAdapter(adapter);
         if (Order.STATUS_COMPLETE == mOrder.getStatus()) {
             tvTrackingOrder.setVisibility(View.GONE);
-        } else {
+        } else if (Order.STATUS_CANCELLED == mOrder.getStatus()){
+            tvTrackingOrder.setVisibility(View.GONE);
+        }
+        else {
             tvTrackingOrder.setVisibility(View.VISIBLE);
         }
     }

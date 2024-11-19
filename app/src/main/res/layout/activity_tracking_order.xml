@@ -204,20 +204,36 @@
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_margin="@dimen/define_dimen_10"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/tv_take_order"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bg_button_disable_corner_16"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/define_dimen_10"
+            android:layout_marginEnd="@dimen/define_dimen_8"
             android:paddingTop="@dimen/define_dimen_10"
             android:paddingBottom="@dimen/define_dimen_10"
             android:text="@string/label_take_order"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small" />
+
+        <TextView
+            android:id="@+id/tv_cancel_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_disable_corner_16"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/define_dimen_8"
+            android:paddingTop="@dimen/define_dimen_10"
+            android:paddingBottom="@dimen/define_dimen_10"
+            android:text="@string/label_cancel_order"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small" />
 
@@ -231,6 +247,7 @@
             android:text="@string/label_take_order_message"
             android:textColor="@color/textColorHeading"
             android:textSize="@dimen/text_size_small" />
+
     </LinearLayout>
 
 </RelativeLayout>
