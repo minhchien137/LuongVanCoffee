@@ -50,8 +50,11 @@ public class AdminMainActivity extends BaseActivity {
                     case 2:
                         bottomNavigation.getMenu().findItem(R.id.nav_order).setChecked(true);
                         break;
+                    case 3 :
+                        bottomNavigation.getMenu().findItem(R.id.nav_report).setChecked(true);
+                        break;
 
-                    case 3:
+                    case 4:
                         bottomNavigation.getMenu().findItem(R.id.nav_settings).setChecked(true);
                         break;
                 }
@@ -66,8 +69,10 @@ public class AdminMainActivity extends BaseActivity {
                 viewPager2.setCurrentItem(1);
             } else if (id == R.id.nav_order) {
                 viewPager2.setCurrentItem(2);
-            } else if (id == R.id.nav_settings) {
+            } else if (id == R.id.nav_report) {
                 viewPager2.setCurrentItem(3);
+            } else if (id == R.id.nav_settings) {
+                viewPager2.setCurrentItem(4);
             }
             return true;
         });

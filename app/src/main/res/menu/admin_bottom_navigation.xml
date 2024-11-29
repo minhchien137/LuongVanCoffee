@@ -17,9 +17,9 @@
         android:title="@string/label_order" />
 
     <item
-        android:id="@+id/nav_notification"
-        android:icon="@drawable/ic_notification"
-        android:title="@string/label_notification" />
+        android:id="@+id/nav_report"
+        android:icon="@drawable/ic_thongke"
+        android:title="@string/label_report" />
 
     <item
         android:id="@+id/nav_settings"

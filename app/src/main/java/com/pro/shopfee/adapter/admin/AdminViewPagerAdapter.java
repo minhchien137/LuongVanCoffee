@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.pro.shopfee.fragment.admin.AdminCategoryFragment;
 import com.pro.shopfee.fragment.admin.AdminDrinkFragment;
 import com.pro.shopfee.fragment.admin.AdminOrderFragment;
+import com.pro.shopfee.fragment.admin.AdminReportFragment;
 import com.pro.shopfee.fragment.admin.AdminSettingsFragment;
 
 public class AdminViewPagerAdapter extends FragmentStateAdapter {
@@ -27,8 +28,9 @@ public class AdminViewPagerAdapter extends FragmentStateAdapter {
                 return new AdminOrderFragment();
 
             case 3:
+                return new AdminReportFragment();
+            case 4:
                 return new AdminSettingsFragment();
-
             default:
                 return new AdminCategoryFragment();
         }
@@ -36,6 +38,6 @@ public class AdminViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 }
