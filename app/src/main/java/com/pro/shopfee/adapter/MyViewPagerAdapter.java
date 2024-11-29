@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.pro.shopfee.fragment.AccountFragment;
 import com.pro.shopfee.fragment.HistoryFragment;
 import com.pro.shopfee.fragment.HomeFragment;
+import com.pro.shopfee.fragment.NotificationFragment;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 
@@ -25,6 +26,9 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
             case 2:
                 return new AccountFragment();
 
+            case 3:
+                return new NotificationFragment();
+
             default:
                 return new HomeFragment();
         }
@@ -32,6 +36,6 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 }

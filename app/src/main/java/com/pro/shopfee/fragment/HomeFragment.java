@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
             return false;
         });
     }
-
+    // Lấy danh sách đồ uống nổi bật từ Firebase Realtime Database.
     private void getListDrinkBanner() {
         if (getActivity() == null) return;
         mDrinkValueEventListener = new ValueEventListener() {
@@ -151,7 +151,7 @@ public class HomeFragment extends Fragment {
         MyApplication.get(getActivity()).getDrinkDatabaseReference()
                 .addValueEventListener(mDrinkValueEventListener);
     }
-
+  // Hiển thị banner đồ uống nổi bật
     private void displayListBanner() {
         BannerViewPagerAdapter adapter = new BannerViewPagerAdapter(listDrinkFeatured, drink -> {
             Bundle bundle = new Bundle();

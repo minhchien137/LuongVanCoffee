@@ -43,6 +43,8 @@ public class AdminSettingsFragment extends Fragment {
         mView.findViewById(R.id.tv_sign_out).setOnClickListener(view -> onClickSignOut());
     }
 
+
+
     private void onClickManageProductColor() {
         GlobalFunction.startActivity(getActivity(), AdminToppingActivity.class);
     }

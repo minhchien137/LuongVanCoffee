@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // Cho phep MainActivity nhận các sự kiện được gửi đến EventBus.
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -64,6 +64,9 @@ public class MainActivity extends BaseActivity {
                     case 2:
                         mBottomNavigationView.getMenu().findItem(R.id.nav_account).setChecked(true);
                         break;
+                    case 3:
+                        mBottomNavigationView.getMenu().findItem(R.id.nav_notification).setChecked(true);
+                        break;
                 }
             }
         });
@@ -76,6 +79,8 @@ public class MainActivity extends BaseActivity {
                 mViewPager2.setCurrentItem(1);
             } else if (id == R.id.nav_account) {
                 mViewPager2.setCurrentItem(2);
+            } else if (id == R.id.nav_notification) {
+                mViewPager2.setCurrentItem(3);
             }
             return true;
         });
@@ -94,6 +99,7 @@ public class MainActivity extends BaseActivity {
         showConfirmExitApp();
     }
 
+    // Dialog xác nhận thoát ứng dụng.
     private void showConfirmExitApp() {
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.app_name))
