@@ -81,7 +81,8 @@ public class TrackingOrderActivity extends BaseActivity {
         tvCancelOrder = findViewById(R.id.tv_cancel_order);
         LinearLayout layoutBottom = findViewById(R.id.layout_bottom);
         if (DataStoreManager.getUser().isAdmin()) {
-            layoutBottom.setVisibility(View.GONE);
+            layoutBottom.setVisibility(View.VISIBLE);
+            tvTakeOrder.setVisibility(View.GONE);
         } else {
             layoutBottom.setVisibility(View.VISIBLE);
         }
@@ -115,10 +116,18 @@ public class TrackingOrderActivity extends BaseActivity {
         });
 
         tvCancelOrder.setOnClickListener(view -> {
-            if (mOrder.getStatus() == Order.STATUS_NEW) {
+            if (mOrder == null) return;
+
+            // Nếu người dùng là quản trị viên, cho phép hủy đơn hàng ở mọi trạng thái
+            if (DataStoreManager.getUser().isAdmin()) {
                 cancelOrder();
             } else {
-                showToastMessage(getString(R.string.msg_cannot_cancel_order));
+                // Nếu không phải quản trị viên, chỉ hủy đơn hàng khi trạng thái là mới
+                if (mOrder.getStatus() == Order.STATUS_NEW) {
+                    cancelOrder();
+                } else {
+                    showToastMessage(getString(R.string.msg_cannot_cancel_order));
+                }
             }
         });
     }
@@ -186,6 +195,8 @@ public class TrackingOrderActivity extends BaseActivity {
                 tvCancelOrder.setVisibility(View.VISIBLE); // Bật nút hủy
                 tvCancelOrder.setBackgroundResource(R.drawable.bg_button_enable_corner_16); // Kích hoạt giao diện nút hủy
                 tvCancelOrder.setEnabled(true); // Kích hoạt chức năng nút hủy
+
+
                 break;
 
             case Order.STATUS_PREPARE:
@@ -246,8 +257,8 @@ public class TrackingOrderActivity extends BaseActivity {
                 tvCancelOrder.setVisibility(View.GONE);
                 break;
 
-
         }
+
     }
 
     private void updateStatusOrder(int status) {

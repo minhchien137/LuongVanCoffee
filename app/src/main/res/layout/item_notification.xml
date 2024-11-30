@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Thông báo"
+        android:textSize="14sp" />
+
+
+    <!-- Biểu tượng số 1 ở góc phải -->
+    <TextView
+        android:id="@+id/tv_unread_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="6sp"
+        android:padding="3dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:textColor="@color/white"
+        android:background="@drawable/notification_count_background"
+        android:visibility="gone" />
+
+</LinearLayout>

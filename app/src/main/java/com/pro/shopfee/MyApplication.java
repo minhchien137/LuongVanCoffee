@@ -2,7 +2,9 @@ package com.pro.shopfee;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.pro.shopfee.model.Notification;
 import com.pro.shopfee.prefs.DataStoreManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,8 @@ public class MyApplication extends Application {
         mFirebaseDatabase = FirebaseDatabase.getInstance(FIREBASE_URL);
         DataStoreManager.init(getApplicationContext());
     }
+
+
 
     public DatabaseReference getVoucherDatabaseReference() {
         return mFirebaseDatabase.getReference("voucher");
@@ -64,4 +68,6 @@ public class MyApplication extends Application {
     public DatabaseReference getOrderDetailDatabaseReference(long orderId) {
         return mFirebaseDatabase.getReference("order/" + orderId);
     }
+
+
 }

@@ -186,6 +186,7 @@
     <string name="label_price_require">Giá (*)</string>
     <string name="label_add_topping">Thêm đồ đi kèm</string>
     <string name="label_update_topping">Chỉnh sửa đồ đi kèm</string>
+    <string name="label_admin_notification">Thông báo</string>
     <string name="label_add_category">Thêm thể loại</string>
     <string name="label_update_category">Chỉnh sửa thể loại</string>
     <string name="label_image">Hình ảnh (*)</string>
@@ -195,7 +196,7 @@
 
     <string name="manage_topping">Đi kèm đồ uống</string>
     <string name="manage_voucher">Chương trình khuyến mại</string>
-    <string name="manage_thongke">Thống kê</string>
+    <string name="manage_notification">Thông báo</string>
     <string name="manage_feedback">Phản hồi &amp; góp ý</string>
 
     <string name="msg_confirm_delete">Bạn có chắc chắn muốn xóa mục này không?</string>
