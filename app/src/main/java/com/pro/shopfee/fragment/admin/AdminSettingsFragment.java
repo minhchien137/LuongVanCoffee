@@ -67,8 +67,10 @@ public class AdminSettingsFragment extends Fragment {
                         int count = 0;
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Notification notification = dataSnapshot.getValue(Notification.class);
-                            if (notification != null && !notification.getRead()) { // Kiểm tra thông báo chưa đọc
-                                count++; // Tăng số lượng thông báo chưa đọc
+                            if (notification != null && !notification.getRead()) {
+                                if (notification.getMessage().contains("đã đặt đơn hàng mã")) {// Kiểm tra thông báo chưa đọc
+                                    count++; // Tăng số lượng thông báo chưa đọc
+                                }
                             }
                         }
                         // Trả số lượng thông báo chưa đọc qua callback

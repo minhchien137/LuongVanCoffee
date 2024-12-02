@@ -38,6 +38,47 @@
             android:layout_marginTop="@dimen/define_dimen_16"
             android:layout_marginBottom="@dimen/define_dimen_16"/>
 
+        <!-- TextView cho thông báo với số lượng -->
+        <LinearLayout
+            android:id="@+id/layout_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/define_dimen_10"
+            android:paddingBottom="@dimen/define_dimen_14"
+            android:gravity="center_vertical">
+
+            <!-- Biểu tượng thông báo -->
+            <TextView
+                android:id="@+id/tv_notification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTint="@color/textColorDescription"
+                android:drawableStart="@drawable/ic_notification"
+                android:drawablePadding="@dimen/define_dimen_10"
+                android:text="@string/manage_notification"
+                android:textColor="@color/textColorHeading"
+                android:textSize="@dimen/text_size_small" />
+
+            <!-- Số lượng thông báo -->
+            <TextView
+                android:id="@+id/tv_notification_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/notification_count_background"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:padding="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+        </LinearLayout>
+
+
+
         <LinearLayout
             android:id="@+id/layout_feedback"
             android:layout_width="match_parent"

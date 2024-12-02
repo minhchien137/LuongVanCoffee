@@ -11,12 +11,6 @@
         android:icon="@drawable/ic_history"
         android:title="@string/nav_history" />
 
-
-    <item
-        android:id="@+id/nav_notification"
-        android:icon="@drawable/ic_notification"
-        android:title="@string/nav_notfication" />
-
     <item
         android:id="@+id/nav_account"
         android:icon="@drawable/ic_account"
