@@ -33,6 +33,7 @@
     <string name="login">Đăng Nhập</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="feedback">Phản hồi</string>
+    <string name="notification">Thông báo</string>
     <string name="contact">Liên hệ</string>
     <string name="change_password">Đổi mật khẩu</string>
     <string name="sign_out">Đăng xuất</string>

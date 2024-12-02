@@ -1,4 +1,4 @@
-package com.pro.shopfee.activity.admin;
+package com.pro.shopfee.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,25 +15,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pro.shopfee.R;
-import com.pro.shopfee.activity.BaseActivity;
 import com.pro.shopfee.adapter.NotificationAdapter;
 import com.pro.shopfee.model.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminNotificationActivity extends BaseActivity {
-
+public class NotificationActivity extends BaseActivity{
     private TextView tvToolbarTitle;
     private RecyclerView rvNotifications;
     private NotificationAdapter notificationAdapter;
     private List<Notification> notificationList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_notification);
+        setContentView(R.layout.activity_notification);
 
         initToolbar();
         rvNotifications = findViewById(R.id.recycler_view_notifications);
@@ -49,6 +46,14 @@ public class AdminNotificationActivity extends BaseActivity {
         getNotificationsFromFireBase();
 
     }
+
+    private void initToolbar() {
+        ImageView imgToolbarBack = findViewById(R.id.img_toolbar_back);
+        tvToolbarTitle = findViewById(R.id.tv_toolbar_title);
+        imgToolbarBack.setOnClickListener(view -> onBackPressed());
+        tvToolbarTitle.setText(getString(R.string.label_admin_notification));
+    }
+
 
     private void getNotificationsFromFireBase() {
         FirebaseDatabase.getInstance().getReference("notifications")
@@ -68,10 +73,11 @@ public class AdminNotificationActivity extends BaseActivity {
                                     notification.setRead(dataSnapshot.child("Read").getValue(Boolean.class));
                                 }
 
-                                if (isAdminNotification(notification)) {
+                                // Lọc chỉ những thông báo dành cho khách hàng
+                                if (isCustomerNotification(notification)) {
                                     notificationList.add(notification);
                                 }
-                              //  notificationList.add(notification);
+
                             }
                         }
                         notificationAdapter.notifyDataSetChanged();
@@ -84,13 +90,12 @@ public class AdminNotificationActivity extends BaseActivity {
                 });
     }
 
-    private boolean isAdminNotification(Notification notification) {
-        // Kiểm tra nếu đây là thông báo dành cho Admin (Thông báo về việc người dùng đã đặt đơn hàng)
-        return notification.getMessage().contains("đã đặt đơn hàng mã");
+    private boolean isCustomerNotification(Notification notification) {
+        // Kiểm tra nếu đây là thông báo dành cho khách hàng (Thông báo giao hàng thành công)
+        return notification.getMessage().contains("đã được giao thành công");
     }
 
 
-    
     private void deleteNotification(Notification notification) {
         FirebaseDatabase.getInstance().getReference("notifications")
                 .child(notification.getNotificationId())
@@ -108,12 +113,5 @@ public class AdminNotificationActivity extends BaseActivity {
                         Log.d("Notification", "Xóa không thành công");
                     }
                 });
-    }
-
-    private void initToolbar() {
-        ImageView imgToolbarBack = findViewById(R.id.img_toolbar_back);
-        tvToolbarTitle = findViewById(R.id.tv_toolbar_title);
-        imgToolbarBack.setOnClickListener(view -> onBackPressed());
-        tvToolbarTitle.setText(getString(R.string.label_admin_notification));
     }
 }

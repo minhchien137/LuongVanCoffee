@@ -12,12 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pro.shopfee.R;
 import com.pro.shopfee.activity.ChangePasswordActivity;
 import com.pro.shopfee.activity.ContactActivity;
 import com.pro.shopfee.activity.FeedbackActivity;
 import com.pro.shopfee.activity.LoginActivity;
 import com.pro.shopfee.activity.MainActivity;
+import com.pro.shopfee.activity.NotificationActivity;
+import com.pro.shopfee.fragment.admin.AdminSettingsFragment;
+import com.pro.shopfee.model.Notification;
 import com.pro.shopfee.prefs.DataStoreManager;
 import com.pro.shopfee.utils.GlobalFunction;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +36,7 @@ public class AccountFragment extends Fragment {
     private LinearLayout layoutContact;
     private LinearLayout layoutChangePassword;
     private LinearLayout layoutSignOut;
+    private LinearLayout layoutNotification;
 
     @Nullable
     @Override
@@ -40,9 +48,64 @@ public class AccountFragment extends Fragment {
         initToolbar();
         initUi();
         initListener();
+        setupNotification();
 
         return mView;
     }
+
+    private void setupNotification() {
+        // Lấy số lượng thông báo mới
+        getNewNotificationCount(new AdminSettingsFragment.NotificationCountCallback() {
+            @Override
+            public void onCountReceived(int count) {
+                updateNotificationCount(count);
+            }
+        });
+    }
+
+    // Hàm lấy số lượng thông báo mới từ Firebase
+    private void getNewNotificationCount(AdminSettingsFragment.NotificationCountCallback callback) {
+        FirebaseDatabase.getInstance().getReference("notifications")
+                .addValueEventListener(new ValueEventListener() { // Sử dụng addValueEventListener để theo dõi sự thay đổi trong Firebase
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int count = 0;
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Notification notification = dataSnapshot.getValue(Notification.class);
+                            if (notification != null && !notification.getRead()) { // Kiểm tra thông báo chưa đọc
+                                if (notification.getMessage().contains("đã được giao thành công, vui lòng nhận đơn hàng")) {// Kiểm tra thông báo chưa đọc
+                                    count++; // Tăng số lượng thông báo chưa đọc
+                                }
+                            }
+                        }
+                        // Trả số lượng thông báo chưa đọc qua callback
+                        callback.onCountReceived(count);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Xử lý lỗi nếu có
+                    }
+                });
+    }
+
+    // Cập nhật giao diện khi có thông báo mới
+    private void updateNotificationCount(int count) {
+        TextView tvNotificationCount = mView.findViewById(R.id.tv_notification_count);
+        if (tvNotificationCount != null) {
+            if (count > 0) {
+                tvNotificationCount.setVisibility(View.VISIBLE);
+                tvNotificationCount.setText(String.valueOf(count));
+            } else {
+                tvNotificationCount.setVisibility(View.GONE);
+            }
+        }
+    }
+    // Giao diện callback để trả về số lượng thông báo
+    public interface NotificationCountCallback {
+        void onCountReceived(int count);
+    }
+
 
     private void initToolbar() {
         ImageView imgToolbarBack = mView.findViewById(R.id.img_toolbar_back);
@@ -64,9 +127,12 @@ public class AccountFragment extends Fragment {
         layoutContact = mView.findViewById(R.id.layout_contact);
         layoutChangePassword = mView.findViewById(R.id.layout_change_password);
         layoutSignOut = mView.findViewById(R.id.layout_sign_out);
+        layoutNotification = mView.findViewById(R.id.layout_notification);
     }
 
     private void initListener() {
+        layoutNotification.setOnClickListener(view ->
+                GlobalFunction.startActivity(getActivity(), NotificationActivity.class));
         layoutFeedback.setOnClickListener(view ->
                 GlobalFunction.startActivity(getActivity(), FeedbackActivity.class));
         layoutContact.setOnClickListener(view ->
@@ -84,4 +150,6 @@ public class AccountFragment extends Fragment {
         GlobalFunction.startActivity(getActivity(), LoginActivity.class);
         getActivity().finishAffinity();
     }
+
+
 }

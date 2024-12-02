@@ -11,9 +11,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pro.shopfee.MyApplication;
 import com.pro.shopfee.R;
 import com.pro.shopfee.adapter.DrinkOrderAdapter;
+import com.pro.shopfee.model.Notification;
 import com.pro.shopfee.model.Order;
 import com.pro.shopfee.model.RatingReview;
 import com.pro.shopfee.prefs.DataStoreManager;
@@ -242,6 +245,8 @@ public class TrackingOrderActivity extends BaseActivity {
                 tvTakeOrder.setBackgroundResource(R.drawable.bg_button_enable_corner_16);
                 //tvTakeOrderMessage.setVisibility(View.VISIBLE);
                 tvCancelOrder.setVisibility(View.GONE);
+                // Tạo thông báo khi đơn hàng đã hoàn thành
+                createOrderNotification(mOrder);
                 break;
 
             case Order.STATUS_CANCELLED:
@@ -279,6 +284,24 @@ public class TrackingOrderActivity extends BaseActivity {
                         finish();
                     }
         });
+    }
+
+    private void createOrderNotification(Order order) {
+        // Lấy thông tin đơn hàng
+        String orderId = String.valueOf(order.getId());  // Mã đơn hàng
+        // Tạo thông báo
+        String notificationMessage = "Đơn hàng mã " + orderId + " đã được giao thành công, vui lòng nhận đơn hàng";
+
+        // Tạo đối tượng Notification với notificationId là ID khóa chính
+        String notificationId = FirebaseDatabase.getInstance().getReference("notifications").push().getKey(); // Tạo ID tự động cho notification
+
+        Notification notification = new Notification(notificationId, orderId, notificationMessage, false, null); // false: thông báo chưa được xem
+
+        // Lưu thông báo vào Firebase, sử dụng notificationId làm khóa chính
+        DatabaseReference notificationsRef = FirebaseDatabase.getInstance().getReference("notifications");
+        notificationsRef.child(notificationId).setValue(notification); // Dùng notificationId làm key chính
+
+
     }
 
     @Override

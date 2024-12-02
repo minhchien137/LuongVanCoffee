@@ -32,7 +32,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.context = context;
         this.notificationList = notificationList;
         this.onNotificationLongClickListener = onNotificationLongClickListener;
-        //this.onClick = onClick;
+
     }
 
     @Override
@@ -45,6 +45,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(NotificationViewHolder holder, int position) {
         Notification notification = notificationList.get(position);
         if (notification == null) return;
+
+        // Lọc thông báo cho Admin
+        if (notification.getMessage().contains("đã đặt đơn hàng mã")) {
+            holder.tvMessage.setText("Người dùng " + notification.getUserName() + " đã đặt đơn hàng mã " + notification.getOrderId());
+        } else {
+            // Lọc thông báo cho khách hàng
+            holder.tvMessage.setText("Đơn hàng mã " + notification.getOrderId() + " đã được giao thành công, vui lòng nhận đơn hàng");
+        }
         holder.tvMessage.setText(notification.getMessage());
 
         // Kiểm tra trạng thái "đã đọc" và cập nhật UI
