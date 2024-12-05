@@ -1,11 +1,14 @@
 package com.pro.shopfee.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -280,14 +283,23 @@ public class DrinkDetailActivity extends BaseActivity {
                 mDrink.setNote(notes);
             }
 
-            if (!isDrinkInCart()) {
-                DrinkDatabase.getInstance(DrinkDetailActivity.this).drinkDAO().insertDrink(mDrink);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+            if (!isLoggedIn) {
+                // Nếu chưa đăng nhập, hiển thị thông báo và chuyển đến màn hình đăng nhập
+                Toast.makeText(DrinkDetailActivity.this, "Bạn cần đăng nhập sử dụng tính năng này !", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DrinkDetailActivity.this, LoginActivity.class);
+                startActivity(intent);
             } else {
-                DrinkDatabase.getInstance(DrinkDetailActivity.this).drinkDAO().updateDrink(mDrink);
+                if (!isDrinkInCart()) {
+                    DrinkDatabase.getInstance(DrinkDetailActivity.this).drinkDAO().insertDrink(mDrink);
+                } else {
+                    DrinkDatabase.getInstance(DrinkDetailActivity.this).drinkDAO().updateDrink(mDrink);
+                }
+                GlobalFunction.startActivity(DrinkDetailActivity.this, CartActivity.class);
+                EventBus.getDefault().post(new DisplayCartEvent());
+                finish();
             }
-            GlobalFunction.startActivity(DrinkDetailActivity.this, CartActivity.class);
-            EventBus.getDefault().post(new DisplayCartEvent());
-            finish();
         });
     }
 
