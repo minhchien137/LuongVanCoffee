@@ -3,6 +3,7 @@ package com.pro.shopfee.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -10,6 +11,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pro.shopfee.R;
 import com.pro.shopfee.activity.admin.AdminMainActivity;
 import com.pro.shopfee.model.User;
@@ -34,6 +38,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
 
         initUi();
         initListener();
@@ -149,6 +154,9 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
     }
+
+
+
     private void goToMainActivity() {
         if (DataStoreManager.getUser().isAdmin()) {
             GlobalFunction.startActivity(this, AdminMainActivity.class);
