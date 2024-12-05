@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pro.shopfee.R;
 import com.pro.shopfee.activity.LoginActivity;
+import com.pro.shopfee.activity.MainActivity;
 import com.pro.shopfee.activity.admin.AdminFeedbackActivity;
 import com.pro.shopfee.activity.admin.AdminNotificationActivity;
 import com.pro.shopfee.activity.admin.AdminToppingActivity;
@@ -125,7 +126,7 @@ public class AdminSettingsFragment extends Fragment {
         if (getActivity() == null) return;
         FirebaseAuth.getInstance().signOut();
         DataStoreManager.setUser(null);
-        GlobalFunction.startActivity(getActivity(), LoginActivity.class);
+        GlobalFunction.startActivity(getActivity(), MainActivity.class);
         getActivity().finishAffinity();
     }
 

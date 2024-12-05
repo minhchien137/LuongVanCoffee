@@ -1,20 +1,19 @@
 package com.pro.shopfee.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
 import com.pro.shopfee.MyApplication;
 import com.pro.shopfee.R;
 import com.pro.shopfee.adapter.ToppingAdapter;
@@ -263,34 +262,37 @@ public class DrinkDetailActivity extends BaseActivity {
         });
 
         layoutRatingAndReview.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            RatingReview ratingReview = new RatingReview(RatingReview.TYPE_RATING_REVIEW_DRINK,
-                    String.valueOf(mDrink.getId()));
-            bundle.putSerializable(Constant.RATING_REVIEW_OBJECT, ratingReview);
-            GlobalFunction.startActivity(DrinkDetailActivity.this,
-                    RatingReviewActivity.class, bundle);
+            if (!isUserLoggedIn()) {
+                // Show login dialog
+                showLoginRequiredDialog();
+            }else {
+                Bundle bundle = new Bundle();
+                RatingReview ratingReview = new RatingReview(RatingReview.TYPE_RATING_REVIEW_DRINK,
+                        String.valueOf(mDrink.getId()));
+                bundle.putSerializable(Constant.RATING_REVIEW_OBJECT, ratingReview);
+                GlobalFunction.startActivity(DrinkDetailActivity.this,
+                        RatingReviewActivity.class, bundle);
+            }
         });
 
         tvAddOrder.setOnClickListener(view -> {
-            mDrink.setOption(getAllOption());
-            mDrink.setVariant(currentVariant);
-            mDrink.setSize(currentSize);
-            mDrink.setSugar(currentSugar);
-            mDrink.setIce(currentIce);
-            mDrink.setToppingIds(toppingIdsText);
-            String notes = edtNotes.getText().toString().trim();
-            if (!StringUtil.isEmpty(notes)) {
-                mDrink.setNote(notes);
-            }
-
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-            boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-            if (!isLoggedIn) {
-                // Nếu chưa đăng nhập, hiển thị thông báo và chuyển đến màn hình đăng nhập
-                Toast.makeText(DrinkDetailActivity.this, "Bạn cần đăng nhập sử dụng tính năng này !", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DrinkDetailActivity.this, LoginActivity.class);
-                startActivity(intent);
+            // Check if the user is logged in
+            if (!isUserLoggedIn()) {
+                // Show login dialog
+                showLoginRequiredDialog();
             } else {
+                // Continue with adding the drink to the cart if logged in
+                mDrink.setOption(getAllOption());
+                mDrink.setVariant(currentVariant);
+                mDrink.setSize(currentSize);
+                mDrink.setSugar(currentSugar);
+                mDrink.setIce(currentIce);
+                mDrink.setToppingIds(toppingIdsText);
+                String notes = edtNotes.getText().toString().trim();
+                if (!StringUtil.isEmpty(notes)) {
+                    mDrink.setNote(notes);
+                }
+
                 if (!isDrinkInCart()) {
                     DrinkDatabase.getInstance(DrinkDetailActivity.this).drinkDAO().insertDrink(mDrink);
                 } else {
@@ -301,6 +303,24 @@ public class DrinkDetailActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    private boolean isUserLoggedIn() {
+        // Assuming you're using Firebase Authentication
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+    private void showLoginRequiredDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.app_name))
+                .content("Bạn cần đăng nhập để sử dụng tính năng này")
+                .positiveText("Đăng nhập")
+                .onPositive((dialog, which) -> {
+                    // Chuyển hướng đến LoginActivity
+                    GlobalFunction.startActivity(this, LoginActivity.class);
+                })
+                .negativeText("Hủy")
+                .cancelable(false)
+                .show();
     }
 
     private void setValueToppingVariant(String type) {

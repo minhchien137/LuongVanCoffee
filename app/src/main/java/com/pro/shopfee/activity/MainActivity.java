@@ -13,6 +13,7 @@ import com.pro.shopfee.adapter.MyViewPagerAdapter;
 import com.pro.shopfee.database.DrinkDatabase;
 import com.pro.shopfee.event.DisplayCartEvent;
 import com.pro.shopfee.model.Drink;
+import com.pro.shopfee.prefs.DataStoreManager;
 import com.pro.shopfee.utils.Constant;
 import com.pro.shopfee.utils.GlobalFunction;
 import com.pro.shopfee.utils.StringUtil;
@@ -70,6 +71,16 @@ public class MainActivity extends BaseActivity {
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
+
+            // Kiểm tra xem người dùng đã đăng nhập chưa khi truy cập vào các tab yêu cầu đăng nhập
+            if (id == R.id.nav_history || id == R.id.nav_account) {
+                if (DataStoreManager.getUser() == null || StringUtil.isEmpty(DataStoreManager.getUser().getEmail())) {
+                    // Hiển thị thông báo và chuyển hướng đến LoginActivity
+                    showLoginRequiredDialog();
+                    return false; // Ngừng xử lý sự kiện tab
+                }
+            }
+            
             if (id == R.id.nav_home) {
                 mViewPager2.setCurrentItem(0);
             } else if (id == R.id.nav_history) {
@@ -81,6 +92,20 @@ public class MainActivity extends BaseActivity {
         });
 
         displayLayoutCartBottom();
+    }
+
+    private void showLoginRequiredDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.app_name))
+                .content("Bạn cần đăng nhập để sử dụng tính năng này")
+                .positiveText("Đăng nhập")
+                .onPositive((dialog, which) -> {
+                    // Chuyển hướng đến LoginActivity
+                    GlobalFunction.startActivity(this, LoginActivity.class);
+                })
+                .negativeText("Hủy")
+                .cancelable(false)
+                .show();
     }
 
     private void initUi() {

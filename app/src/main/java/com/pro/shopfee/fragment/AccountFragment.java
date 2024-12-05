@@ -147,7 +147,7 @@ public class AccountFragment extends Fragment {
 
         FirebaseAuth.getInstance().signOut();
         DataStoreManager.setUser(null);
-        GlobalFunction.startActivity(getActivity(), LoginActivity.class);
+        GlobalFunction.startActivity(getActivity(), MainActivity.class);
         getActivity().finishAffinity();
     }
 
