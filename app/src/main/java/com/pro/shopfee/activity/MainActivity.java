@@ -1,9 +1,12 @@
 package com.pro.shopfee.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -35,6 +38,11 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Kiểm tra trạng thái đăng nhập
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
         // Cho phep MainActivity nhận các sự kiện được gửi đến EventBus.
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -70,6 +78,15 @@ public class MainActivity extends BaseActivity {
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
+            // // Nếu chưa đăng nhập và nhấn vào các tab yêu cầu đăng nhập, chuyển đến LoginActivity
+            if (!isLoggedIn) {
+                if (id == R.id.nav_history || id == R.id.nav_account) {
+                    Toast.makeText(MainActivity.this, "Bạn cần đăng nhập sử dụng tính năng này!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    return true; // Đã chuyển hướng rồi, không xử lý thêm
+                }
+            }
             if (id == R.id.nav_home) {
                 mViewPager2.setCurrentItem(0);
             } else if (id == R.id.nav_history) {
