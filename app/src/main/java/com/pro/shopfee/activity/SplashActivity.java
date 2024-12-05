@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity {
                 GlobalFunction.startActivity(this, MainActivity.class);
             }
         } else {
-            GlobalFunction.startActivity(this, LoginActivity.class);
+            GlobalFunction.startActivity(this, MainActivity.class);
         }
         finish();
     }
