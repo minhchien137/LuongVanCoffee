@@ -5,6 +5,8 @@
 - Nhóm chức năng quản lý tài khoản: nhóm chức năng này cho phép khách hàng đăng nhập ứng dụng và quản lý các thông tin cá nhân, quản lý các thông tin địa chỉ giao hàng của mình.
 
 -- Giao diện : 
+
+
 ![image](https://github.com/user-attachments/assets/3dcb85f1-df01-4927-97ec-094bf37ba725)
 ![image](https://github.com/user-attachments/assets/a76d80cf-8ab5-4fc0-8766-c0011baf4a2e)
 ![image](https://github.com/user-attachments/assets/a564d212-7c53-455d-9f2c-77efd338cee1)
