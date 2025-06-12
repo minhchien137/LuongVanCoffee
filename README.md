@@ -1,3 +1,12 @@
+user : 
+tk : user@gmail.com
+mk : Abc@123
+
+quản trị :
+tk : admin@admin.com
+mk : Abc@123
+
+
 ** Chức năng cho Người dùng**
 
 - Nhóm chức năng mua bán hàng: nhóm chức năng này cho phép khách hàng xem danh sách sản phẩm, tìm kiếm sản phẩm, cập nhật giỏ hàng, tạo đơn hàng, thanh toán đơn hàng (cod & qr code)
